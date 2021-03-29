@@ -9,7 +9,7 @@ import { Footer } from "./nav/Footer.js";
 import {
 	logoutUser, setLoggedInUser, loginUser, registerUser, getLoggedInUser,
 	getSnacks, getSingleSnack, getToppings, useSnackCollection, getSnackToppings, useSnackToppingsCollection,
-
+	getSnacksByTopping
 } from "./data/apiManager.js";
 
 
@@ -91,32 +91,50 @@ const showDetails = (snackObj, snackToppings) => {
 //end snack listeners
 
 // write a function to filter snacks by topping
-const filterSnackByTopping = (specificTopping) => {
-	const toppingArray = getSnacks().filter(snackTopping => {
-		console.log('snack topping', snackTopping)
-		if (snackTopping.toppings.name.includes(specificTopping)){
-			return snackTopping;
-		}
-	})
-	console.log(useSnackCollection(toppingArray))
-	useSnackCollection(toppingArray);
-}
+// const filterSnackByTopping = (specificTopping) => {
+// 	const toppingArray = getSnacks().filter(snackTopping => {		
+// 		if (snackTopping.toppings.id.includes(specificTopping)){
+// 			console.log('snack topping', snackTopping)
+// 			return snackTopping;
+// 		}
+// 	})
+// 	console.log(showSnackList(toppingArray))
+// 	showSnackList(toppingArray);
+// }
 
+//query DB snackTopping table where topping id = dropdown value and expand on the snack
+//
+const filterSnackByTopping = (specificTopping) => {
+	getSnacksByTopping(specificTopping)
+		.then(filteredArray => {
+			
+			const listElement = document.querySelector("#mainContent")
+			listElement.innerHTML = SnackList(filteredArray)})
+		// {
+		// 	console.log(response);
+		// 	const filteredArray = response
+		// 	// .filter(singleTopping => {
+		// 	//     if (singleTopping.snack.id === specificTopping){
+		// 	//         return singleTopping;
+		// 	// 	}
+		// 	// })
+		// 	console.log(filteredArray);
+		// 	return filteredArray
+		// })
+
+}
 
 applicationElement.addEventListener("change", event => {
 	event.preventDefault();
-	if (event.target.class === "toppingDropdown"){
+	if (event.target.id === "toppingFilter"){	
+		console.log(event.target.value, "change event value")	
 		filterSnackByTopping(event.target.value)		
+		
 	}
-	useSnackCollection();
+	
+	
 })
 
-// const showToppingsList = () => {
-// 	getSnackToppings().then(allToppings =>{
-// 		const toppingElement = document.querySelector(".toppingDropdown")
-// 		toppingElement.innerHTML = useSnackToppingsCollection(allToppings);
-// 	})
-// }
 
 
 const checkForUser = () => {
@@ -150,6 +168,7 @@ const showSnackList = () => {
 		listElement.innerHTML = SnackList(allSnacks);
 	})
 }
+
 
 const showFooter = () => {
 	applicationElement.innerHTML += Footer();
