@@ -1,5 +1,36 @@
 import { getLoggedInUser } from "../data/apiManager.js"
 
+import { useSnackToppingsCollection, getSnackToppings } from "../data/apiManager.js"
+
+//useSnackToppingsCollection is a copy of the empty array. 
+//getSnackToppings is the fetch call to get the toppings
+
+export const renderToppings = (allToppings) => {
+
+	const toppingTarget = document.querySelector(".toppingDropdown")//where we want to put the topping dropdown
+
+	let toppingOptions = allToppings.map(singleTopping => {
+		return `<option value="${singleTopping.id}">${singleTopping.name}</option>`
+
+	})
+
+	toppingTarget.innerHTML = `
+		<select class = "toppingDropdown">${toppingOptions}</select>
+		
+		
+		`
+
+}
+
+export const populateToppings = () => {
+	getSnackToppings()
+		.then(() => {
+			const selectTopping = useSnackToppingsCollection()
+			renderToppings(selectTopping);
+		})
+}
+
+
 export const NavBar = () => {
 	//only show navItems and addTypeButton if user is logged in
 	
@@ -13,12 +44,9 @@ export const NavBar = () => {
 			<button class="btn btn-info" type="button" id="allSnacks">All Snacks</button>
 		</li>
 		<li class="nav-item ms-1">
-			<select class="form-select form-select btn-info" aria-label="Select A Topping">
-				<option selected>Select A Topping</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
-			</select>
+			<div class ="toppingDropdown"  aria-label="Select A Topping">
+				
+			</div>
 		</li>
 		<li class="nav-item ms-1">
 			<button class="btn btn-info" type="button" id="logout">Logout</button>

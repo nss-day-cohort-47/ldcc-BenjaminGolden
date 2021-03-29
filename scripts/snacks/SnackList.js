@@ -1,5 +1,6 @@
 import { SnackCard } from "./SnackCard.js";
 
+
 export const SnackList = (allSnacks) => {
 	let snackListHTML = `
 		<div class="album py-5 bg-light">
@@ -13,3 +14,7 @@ export const SnackList = (allSnacks) => {
 				snackListHTML += `</div></div></div>`
 		return snackListHTML;
 }
+
+
+
+  
