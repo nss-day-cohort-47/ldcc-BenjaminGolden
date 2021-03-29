@@ -15,7 +15,7 @@ export const renderToppings = (allToppings) => {
 	})
 
 	toppingTarget.innerHTML = `
-		<select class = "toppingDropdown">${toppingOptions}</select>
+		<select class="toppingDropdown" id="toppingFilter">${toppingOptions.join("")}</select>
 		
 		
 		`
@@ -44,7 +44,7 @@ export const NavBar = () => {
 			<button class="btn btn-info" type="button" id="allSnacks">All Snacks</button>
 		</li>
 		<li class="nav-item ms-1">
-			<div class ="toppingDropdown"  aria-label="Select A Topping">
+			<div class="toppingDropdown"  aria-label="Select A Topping">
 				
 			</div>
 		</li>
