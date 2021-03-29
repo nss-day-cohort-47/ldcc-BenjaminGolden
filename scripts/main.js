@@ -2,13 +2,14 @@ console.log('yum, yum, yum');
 
 import { LoginForm } from "./auth/LoginForm.js";
 import { RegisterForm } from "./auth/RegisterForm.js";
-import { NavBar } from "./nav/NavBar.js";
+import { NavBar, populateToppings, renderToppings } from "./nav/NavBar.js";
 import { SnackList } from "./snacks/SnackList.js";
 import { SnackDetails } from "./snacks/SnackDetails.js";
 import { Footer } from "./nav/Footer.js";
 import {
 	logoutUser, setLoggedInUser, loginUser, registerUser, getLoggedInUser,
-	getSnacks, getSingleSnack, getToppings
+	getSnacks, getSingleSnack, getToppings, useSnackCollection, getSnackToppings, useSnackToppingsCollection,
+
 } from "./data/apiManager.js";
 
 
@@ -89,6 +90,35 @@ const showDetails = (snackObj, snackToppings) => {
 }
 //end snack listeners
 
+// write a function to filter snacks by topping
+const filterSnackByTopping = (specificTopping) => {
+	const toppingArray = getSnacks().filter(snackTopping => {
+		console.log('snack topping', snackTopping)
+		if (snackTopping.toppings.name.includes(specificTopping)){
+			return snackTopping;
+		}
+	})
+	console.log(useSnackCollection(toppingArray))
+	useSnackCollection(toppingArray);
+}
+
+
+applicationElement.addEventListener("change", event => {
+	event.preventDefault();
+	if (event.target.class === "toppingDropdown"){
+		filterSnackByTopping(event.target.value)		
+	}
+	useSnackCollection();
+})
+
+// const showToppingsList = () => {
+// 	getSnackToppings().then(allToppings =>{
+// 		const toppingElement = document.querySelector(".toppingDropdown")
+// 		toppingElement.innerHTML = useSnackToppingsCollection(allToppings);
+// 	})
+// }
+
+
 const checkForUser = () => {
 	if (sessionStorage.getItem("user")) {
 		setLoggedInUser(JSON.parse(sessionStorage.getItem("user")));
@@ -106,8 +136,12 @@ const showLoginRegister = () => {
 	applicationElement.innerHTML += `${LoginForm()} <hr/> <hr/> ${RegisterForm()}`;
 }
 
+
 const showNavBar = () => {
+	const toppingList = useSnackToppingsCollection();
+	
 	applicationElement.innerHTML += NavBar();
+	renderToppings(toppingList);
 }
 
 const showSnackList = () => {
@@ -127,6 +161,7 @@ const startLDSnacks = () => {
 	applicationElement.innerHTML += `<div id="mainContent"></div>`;
 	showSnackList();
 	showFooter();
+	populateToppings();
 
 }
 
