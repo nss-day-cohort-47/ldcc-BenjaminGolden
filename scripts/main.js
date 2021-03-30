@@ -102,25 +102,13 @@ const showDetails = (snackObj, snackToppings) => {
 // 	showSnackList(toppingArray);
 // }
 
-//query DB snackTopping table where topping id = dropdown value and expand on the snack
-//
+
 const filterSnackByTopping = (specificTopping) => {
 	getSnacksByTopping(specificTopping)
-		.then(filteredArray => {
-			
+		.then(filteredArray => {		
 			const listElement = document.querySelector("#mainContent")
 			listElement.innerHTML = SnackList(filteredArray)})
-		// {
-		// 	console.log(response);
-		// 	const filteredArray = response
-		// 	// .filter(singleTopping => {
-		// 	//     if (singleTopping.snack.id === specificTopping){
-		// 	//         return singleTopping;
-		// 	// 	}
-		// 	// })
-		// 	console.log(filteredArray);
-		// 	return filteredArray
-		// })
+
 
 }
 
@@ -128,11 +116,8 @@ applicationElement.addEventListener("change", event => {
 	event.preventDefault();
 	if (event.target.id === "toppingFilter"){	
 		console.log(event.target.value, "change event value")	
-		filterSnackByTopping(event.target.value)		
-		
-	}
-	
-	
+		filterSnackByTopping(event.target.value)				
+	}	
 })
 
 
