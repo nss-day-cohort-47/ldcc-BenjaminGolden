@@ -2,15 +2,16 @@ console.log('yum, yum, yum');
 
 import { LoginForm } from "./auth/LoginForm.js";
 import { RegisterForm } from "./auth/RegisterForm.js";
-import { NavBar, populateToppings, renderToppings } from "./nav/NavBar.js";
+import { NavBar, populateToppings, renderToppings, populateTypes } from "./nav/NavBar.js";
 import { SnackList } from "./snacks/SnackList.js";
 import { SnackDetails } from "./snacks/SnackDetails.js";
 import { Footer } from "./nav/Footer.js";
 import {
 	logoutUser, setLoggedInUser, loginUser, registerUser, getLoggedInUser,
 	getSnacks, getSingleSnack, getToppings, useSnackCollection, getSnackToppings, useSnackToppingsCollection,
-	getSnacksByTopping
+	getSnacksByTopping, createSnack, useSnackTypesCollection, getSnackTypes
 } from "./data/apiManager.js";
+import { SnackPost } from "./snacks/SnackPost.js"
 
 
 
@@ -88,39 +89,14 @@ const showDetails = (snackObj, snackToppings) => {
 	const listElement = document.querySelector("#mainContent");
 	listElement.innerHTML = SnackDetails(snackObj, snackToppings);
 }
-//end snack listeners
 
-// write a function to filter snacks by topping
-// const filterSnackByTopping = (specificTopping) => {
-// 	const toppingArray = getSnacks().filter(snackTopping => {		
-// 		if (snackTopping.toppings.id.includes(specificTopping)){
-// 			console.log('snack topping', snackTopping)
-// 			return snackTopping;
-// 		}
-// 	})
-// 	console.log(showSnackList(toppingArray))
-// 	showSnackList(toppingArray);
-// }
 
-//query DB snackTopping table where topping id = dropdown value and expand on the snack
-//
 const filterSnackByTopping = (specificTopping) => {
 	getSnacksByTopping(specificTopping)
-		.then(filteredArray => {
-			
+		.then(filteredArray => {		
 			const listElement = document.querySelector("#mainContent")
 			listElement.innerHTML = SnackList(filteredArray)})
-		// {
-		// 	console.log(response);
-		// 	const filteredArray = response
-		// 	// .filter(singleTopping => {
-		// 	//     if (singleTopping.snack.id === specificTopping){
-		// 	//         return singleTopping;
-		// 	// 	}
-		// 	// })
-		// 	console.log(filteredArray);
-		// 	return filteredArray
-		// })
+
 
 }
 
@@ -128,14 +104,53 @@ applicationElement.addEventListener("change", event => {
 	event.preventDefault();
 	if (event.target.id === "toppingFilter"){	
 		console.log(event.target.value, "change event value")	
-		filterSnackByTopping(event.target.value)		
-		
-	}
-	
-	
+		filterSnackByTopping(event.target.value)				
+	}	
 })
 
+//event listener for submit and cancel buttons on snack post
+applicationElement.addEventListener("click", event => {
+	if (event.target.id === "newSnack__cancel") {
+		//clear the input fields
+	}
+  })
+  
+  applicationElement.addEventListener("click", event => {
+	event.preventDefault();
+	if (event.target.id === "newSnack__submit") {
+	//collect the input values into an object to post to the DB
+	  const name = document.querySelector("input[name='name']").value
+	  const snackImg = document.querySelector("input[name='snackImg']").value
+	  const count = document.querySelector("input[name='count']").value
+	  const typeId = document.querySelector("input[name='typeId']").value
+	  const shapeId = document.querySelector("input[name='shapeId']").value//change to select menu
+	  const inFlavorId = document.querySelector("input[name='inFlavorId']").value
+	  const seasonId = document.querySelector("input[name='seasonId']").value
+	  const description = document.querySelector("textarea[name='description']").value
+	  const toppings = document.querySelector("textarea[name='toppings']").value
 
+	  const snackObject = {
+		  name: name,
+		  snackImg: snackImg,
+		  count: count,
+		  typeId: typeId,//save value as int.
+		  shapeId: shapeId,
+		  inFlavorId: inFlavorId,
+		  seasonId: seasonId,
+		  description: description,
+		  toppings: toppings		  
+	  }
+  
+	// be sure to import from the DataManager
+		createSnack(snackObject)
+	}
+  })
+
+  const showSnackEntry = () => { 
+	//Get a reference to the location on the DOM where the nav will display
+	const entryElement = document.querySelector("#addType");
+	entryElement.innerHTML = SnackPost();
+  }
 
 const checkForUser = () => {
 	if (sessionStorage.getItem("user")) {
@@ -157,9 +172,11 @@ const showLoginRegister = () => {
 
 const showNavBar = () => {
 	const toppingList = useSnackToppingsCollection();
-	
+	// const typeList = useSnackTypesCollection();	
 	applicationElement.innerHTML += NavBar();
 	renderToppings(toppingList);
+	// renderTypes(typeList);
+	// populateTypes(typeList);
 }
 
 const showSnackList = () => {
@@ -181,6 +198,7 @@ const startLDSnacks = () => {
 	showSnackList();
 	showFooter();
 	populateToppings();
+	showSnackEntry();
 
 }
 

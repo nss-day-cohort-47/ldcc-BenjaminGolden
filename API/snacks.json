@@ -131,6 +131,44 @@
       "seasonId": 1,
       "description": "Strawberry-flavored cake with layered creme, coated in white frosting with light blue stripes and purple candy glitter.",
       "toppings": "White icing with light blue stripes and purple glitter."
+    },
+    {
+      "name": "oatmeal creme pie cereal",
+      "snackImg": "https://littledebbie.com/images/snackproducts/products/7680b79ddbe08c5503738b18224f4b59.png",
+      "count": "4",
+      "typeId": "5",
+      "shapeId": "5",
+      "inFlavorId": "3",
+      "seasonId": "1",
+      "description": "sugar        ",
+      "toppings": "fudge        ",
+      "id": 12
+    },
+    {
+      "name": "Yumster",
+      "snackImg": "https://littledebbie.com/images/snackproducts/products/e6608262dc0d8e39fae7b2cea5f9700c.png",
+      "count": "4",
+      "typeId": "2",
+      "shapeId": "1",
+      "inFlavorId": "5",
+      "seasonId": "2",
+      "description": "yummy sugar        ",
+      "toppings": "        Festive turquoise iced brownies stamped with a unique variety of llama and springtime images.",
+      "userId": 1,
+      "timestamp": 1617115164041,
+      "id": 13
+    },
+    {
+      "name": "yumm",
+      "snackImg": "https://littledebbie.com/images/snackproducts/products/d1ae71d2de7ce0c285f8db1a91ccd74a.png",
+      "count": "4",
+      "typeId": "4",
+      "shapeId": "4",
+      "inFlavorId": "4",
+      "seasonId": "4",
+      "description": "yummy",
+      "toppings": "toppings        ",
+      "id": 14
     }
   ],
   "toppings": [
