@@ -1,25 +1,17 @@
 import { getLoggedInUser } from "../data/apiManager.js"
-
-import { useSnackToppingsCollection, getSnackToppings } from "../data/apiManager.js"
+import { useSnackToppingsCollection, getSnackToppings, useSnackTypesCollection, getSnackTypes } from "../data/apiManager.js"
 
 //useSnackToppingsCollection is a copy of the empty array. 
 //getSnackToppings is the fetch call to get the toppings
-
+//toppings
 export const renderToppings = (allToppings) => {
-
 	const toppingTarget = document.querySelector(".toppingDropdown")//where we want to put the topping dropdown
-
 	let toppingOptions = allToppings.map(singleTopping => {
 		return `<option value="${singleTopping.id}">${singleTopping.name}</option>`
-
 	})
-
 	toppingTarget.innerHTML = `
-		<select class="toppingDropdown" id="toppingFilter">${toppingOptions.join("")}</select>
-		
-		
+		<select class="form-select btn-info toppingDropdown" id="toppingFilter">${toppingOptions.join("")}</select>		
 		`
-
 }
 
 export const populateToppings = () => {
@@ -29,6 +21,31 @@ export const populateToppings = () => {
 			renderToppings(selectTopping);
 		})
 }
+
+//render Type
+// export const renderTypes = (allTypes) => {
+// 	const TypeTarget = document.querySelector(".typeDropdown")//where we want to put the Type dropdown
+
+// 	TypeTarget.innerHTML = 
+
+// }
+
+export const populateTypes = () => {
+	getSnackTypes()
+		.then(() => {
+			const selectType = useSnackTypesCollection()
+			let typeOptions = selectType.map(singleType => {
+				return `<option value="${singleType.id}">${singleType.name}</option>`
+			})
+			let dropdown = 		
+			`
+			<select class="form-select btn-info typeDropdown" id="typeFilter">${typeOptions.join("")}</select>		
+			`
+			return dropdown 
+		})
+}
+
+
 
 
 export const NavBar = () => {
@@ -56,8 +73,8 @@ export const NavBar = () => {
 
 	const addTypeButton = getLoggedInUser().id ? `
 	<nav class="navbar navbar-light"">
-		<div class="container-fluid">
-			<button class="btn btn-outline-primary" type="button">Add A Type</button>
+		<div class="container-fluid" id="addType" >
+			<button id="addSnack" class="btn btn-outline-primary" type="button">Add A Snack</button>
 		
 		</div>
 	</nav>` : ""
@@ -74,3 +91,5 @@ export const NavBar = () => {
 	${addTypeButton}
 	`
 }
+
+// const addSnack = ()

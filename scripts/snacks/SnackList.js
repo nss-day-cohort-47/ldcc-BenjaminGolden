@@ -13,7 +13,6 @@ export const SnackList = (allSnacks) => {
 					snackListHTML += SnackCard(snackObject)
 				}
 				snackListHTML += `</div></div></div>`
-				console.log(allSnacks);
 		return snackListHTML;
 }
 

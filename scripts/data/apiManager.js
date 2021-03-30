@@ -95,14 +95,13 @@ export const getSnacksByTopping = (toppingId) => {
 }
 
 
-
+//toppings
 let toppingsCollection = [];
 
 export const useSnackToppingsCollection = () => {
 	const toppingsCollectionCopy = [...toppingsCollection]
 	return toppingsCollectionCopy;
 }
-
 
 export const getSnackToppings = () => {
  return fetch (`${apiURL}/toppings`)
@@ -111,3 +110,32 @@ export const getSnackToppings = () => {
 	toppingsCollection = parsedResponse
 	return parsedResponse;
 })}
+
+//types
+let typesCollection = [];
+
+export const useSnackTypesCollection = () => {
+	const typesCollectionCopy = [...typesCollection]
+	return typesCollectionCopy;
+}
+export const getSnackTypes = () => {
+	return fetch (`${apiURL}/types`)
+   .then (response => response.json())
+   .then(parsedResponse => {
+	   typesCollection = parsedResponse
+	   return parsedResponse;
+   })}
+
+//create a SnackPost fetch call
+
+export const createSnack = (snackObj) => {
+	return fetch("http://localhost:8088/snacks", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify(snackObj)
+  
+	})
+		.then(response => response.json())
+  }
